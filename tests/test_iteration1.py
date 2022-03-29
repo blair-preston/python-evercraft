@@ -59,6 +59,6 @@ def test_characterNameFromObject():
 # set default value if name is not given
 def test_characterNameDefault():
     c = Character()
-    c.set_name({})
-    assert c.name != null
+    c.set_name()
+    assert c.name != 'null'
 

@@ -9,13 +9,10 @@ class Character():
     #     self.name = name
     
     def set_name(self, character=None):
-        self.name = character['name']
-        default_user = 'User'
-        if key in character.keys():
-            self.name = character.values()
+        if character == None:
+            self.name = 'User'
         else:
-            self.name = default_user
-
+            self.name = character["name"]
 
     def get_name(self):
         return self.name
