@@ -1,0 +1,10 @@
+tasks:
+  - name: Install dependencies
+    init: pip install -r requirements.txt
+
+vscode:
+  extensions:
+    - littlefoxteam.vscode-python-test-adapter
+    - almenon.arepl
+    - hbenl.vscode-test-explorer
+    - ms-python.python
