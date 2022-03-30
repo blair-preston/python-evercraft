@@ -16,16 +16,18 @@ from evercraft.models.character import Character
 def test_can_attack_hit():
     dice_roller = Character()
     opponent = Character()
-    assert dice_roller.attack_attempt(opponent, 15) == hit()
+    dice_roller.attack_attempt(opponent, 15)
+    assert dice_roller.hit(opponent)
 
 # player will miss with a dice roll lower than opponent armor class    
 def test_can_attack_miss():
     dice_roller = Character()
     opponent = Character()
-    assert dice_roller.attack_attempt(opponent, 5) == miss()
+    assert dice_roller.attack_attempt(opponent, 5) == dice_roller.miss(opponent)
 
 # player will always hit with roll of 20
 def test_can_attack_hit_20():
     dice_roller = Character()
     opponent = Character()
-    assert dice_roller.attack_attempt(opponent, 20) == double_hit()
+    dice_roller.attack_attempt(opponent, 20)
+    assert dice_roller.critical_hit(opponent)
