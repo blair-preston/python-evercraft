@@ -1,25 +1,12 @@
 import pytest
-from evercraft.models.character import Character, Fighter, Rogue
+from evercraft.models.character import Character, Fighter, Rogue, Monk, Paladin 
 
 '''
 
-> As a player I want to play a ROGUE so that I can defeat my enemies with finesse
-
-- ignores an opponents Dexterity modifier (if positive) to Armor Class when attacking
-- adds Dexterity modifier to attacks instead of Strength
-- cannot have Good alignment
-
-> As a player I want to play a MONK so that I can enjoy being an Asian martial-arts archetype in a Medieval European setting
-
-- has 6 hit point per level instead of 5
-- does 3 points of damage instead of 1 when successfully attacking
-- adds Wisdom modifier (if positive) to Armor Class in addition to Dexterity
-- attack roll is increased by 1 every 2nd and 3rd level
 
 > As a player I want to play a PALADIN so that I can smite evil, write wrongs, and be a self-righteous jerk
 
-- has 8 hit points per level instead of 5
-- +2 to attack and damage when attacking Evil characters
+- +2 to damage when attacking Evil characters
 - does triple damage when critting on an Evil character (i.e. add the +2 bonus for a regular attack, and then triple that)
 - attacks roll is increased by 1 for every level instead of every other level
 - can only have Good alignment
@@ -83,8 +70,84 @@ def test_rogue_ignore_dex_neg_mod():
     dice_roller.hit(opponent)
     assert opponent.armor_class == 7
 
+# rogue adds dex not strength to attack roll
+def test_add_dex_to_attack():
+    dice_roller = Rogue()
+    opponent = Character()
+    dice_roller.set_dexterity('16')
+    assert dice_roller.attack_attempt(opponent, 7) == 4
+
+# can code handle error for rogue not allowed to be Good
+def test_rogue_cant_be_good():
+    r = Rogue()
+    assert r.set_alignment("Good") == "Rogues cannot be of Good alignment"
 
 
+# MONK
 
+def test_make_monk():
+    m = Monk()
+    assert isinstance(m, Monk)
 
+# monk gets 6 hp points per level
+def test_monk_gets_6hp():
+    m = Monk()
+    m.xp = 990
+    m.add_xp()
+    assert m.hit_points == 11
 
+# monk damages 3 points when attacking for hit and critical hit
+def test_monk_has_3_points_damage():
+    m = Monk()
+    opponent = Character()
+    assert m.attack_attempt(opponent, 14) == 2
+    
+# monk damages 3 points when attacking for hit and critical hit
+def test_monk_has_3_points_damage_critical():
+    m = Monk()
+    opponent = Character()
+    assert m.attack_attempt(opponent, 20) == 2
+
+# does wisdom mod get added to AC
+def test_add_wisdom():
+    m = Monk()
+    m.set_wisdom('12')
+    assert m.armor_class == 11
+
+# does wisdom mod not get added if negative
+def test_dont_add_wisdom_if_mod_neg():
+    m = Monk()
+    m.set_wisdom('6')
+    assert m.armor_class == 10
+
+# does attack roll get the right number added on 2nd and 3rd levels
+def test_attack_roll_2nd_3rd_level():
+    dice_roller = Monk()
+    opponent = Character()
+    dice_roller.level = 5
+    assert dice_roller.attack_attempt(opponent, 7) == 2
+
+# PALADIN
+
+# can we make an instance of paladin
+def test_make_paladin():
+    p = Paladin()
+    assert isinstance(p, Paladin)
+
+# paladin gets 6 hp points per level
+def test_paladin_gets_8hp():
+    p = Paladin()
+    p.xp = 990
+    p.add_xp()
+    assert p.hit_points == 13
+
+def test_paladin_gets_2_added_to_each_roll():
+    p = Paladin()
+    opponent = Character()
+    assert p.attack_attempt(opponent, 8) == 2
+
+def test_paladin_gets_2_added_to_damage_each_roll():
+    p = Paladin()
+    opponent = Character()
+    opponent.set_alignment('Evil')
+    assert p.attack_attempt(opponent, 12) == 2
