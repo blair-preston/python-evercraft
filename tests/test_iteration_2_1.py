@@ -1,16 +1,54 @@
 import pytest
 from evercraft.models.character import Character, Fighter, Rogue, Monk, Paladin 
 
-'''
+"""
+### Iteration 2 - Classes
 
+Classes that a character can have.
 
-> As a player I want to play a PALADIN so that I can smite evil, write wrongs, and be a self-righteous jerk
+#### Feature: Characters Have Classes
 
-- +2 to damage when attacking Evil characters
+> As a player I want a character to have a class that customizes its capabilities so that I can play more interesting characters
+
+##### Ideas
+
+- changes in hit points
+- changes in attack and damage
+- increased critical range or damage
+- bonuses/penalties versus other classes
+- special abilities
+- alignment limitations
+
+##### Samples
+
+> As a player I want to play a Fighter so that I can kick ass and take names
+
+- attacks roll is increased by 1 for every level instead of every other level
+- has 10 hit points per level instead of 5
+
+> As a player I want to play a Rogue so that I can defeat my enemies with finesse
+
+- does triple damage on critical hits
+- ignores an opponents Dexterity modifier (if positive) to Armor Class when attacking
+- adds Dexterity modifier to attacks instead of Strength
+- cannot have Good alignment
+
+> As a player I want to play a Monk so that I can enjoy being an Asian martial-arts archetype in a Medieval European setting
+
+- has 6 hit point per level instead of 5
+- does 3 points of damage instead of 1 when successfully attacking
+- adds Wisdom modifier (if positive) to Armor Class in addition to Dexterity
+- attack roll is increased by 1 every 2nd and 3rd level
+
+> As a player I want to play a Paladin so that I can smite evil, write wrongs, and be a self-righteous jerk
+
+- has 8 hit points per level instead of 5
+- +2 to attack and damage when attacking Evil characters
 - does triple damage when critting on an Evil character (i.e. add the +2 bonus for a regular attack, and then triple that)
 - attacks roll is increased by 1 for every level instead of every other level
 - can only have Good alignment
-'''
+"""
+
 # FIGHTER
 
 # can we make an instance of fighter
@@ -85,6 +123,7 @@ def test_rogue_cant_be_good():
 
 # MONK
 
+# can we make an instance of monk
 def test_make_monk():
     m = Monk()
     assert isinstance(m, Monk)
@@ -141,13 +180,36 @@ def test_paladin_gets_8hp():
     p.add_xp()
     assert p.hit_points == 13
 
+# paladin gets 2 added to roll
 def test_paladin_gets_2_added_to_each_roll():
     p = Paladin()
     opponent = Character()
+    opponent.set_alignment('Evil')
     assert p.attack_attempt(opponent, 8) == 2
 
+# paladin's evil opponent gets +2 damage then the normal 
 def test_paladin_gets_2_added_to_damage_each_roll():
     p = Paladin()
     opponent = Character()
     opponent.set_alignment('Evil')
     assert p.attack_attempt(opponent, 12) == 2
+
+# paladin triples damage for critical attack of evil character
+def test_paladin_triples_damage_critical():
+    p = Paladin()
+    opponent = Character()
+    opponent.set_alignment('Evil')
+    assert p.critical_hit(opponent) == -7
+
+# can we increase roll EVERY level for a paladin...would be a miss for a character, but paladin hits
+def test_attack_roll_increase_one_every_level_paladin():
+    dice_roller = Paladin()
+    dice_roller.level = 5
+    opponent = Character()
+    opponent.set_alignment('Evil')
+    assert dice_roller.attack_attempt(opponent, 1) == 2
+
+# paladin can only be of Good alignment
+def test_paladin_can_be_good():
+    p = Paladin()
+    assert p.set_alignment("Neutral") == "Paladin is Good!"

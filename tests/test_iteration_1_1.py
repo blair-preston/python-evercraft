@@ -14,18 +14,20 @@ def test_createACharacter():
 # set a name for the instance and get the name 
 def test_characterCanSetName():
     c = Character()
-    user_name = 'Fred'
-    c.set_traits({"name" : user_name, "alignment" : "Good"})
-    assert c.get_name() == user_name
+    # user_name = 'Fred'
+    # c.set_traits({"name" : user_name, "alignment" : "Good"})
+    c.name = 'Fred'
+    c.alignment = 'Good'
+    assert c.get_name() == c.name
 
 # set a name for 2 characters
 def test_characters():
     c = Character()
-    user_name = 'Wilma'
-    c.set_traits({"name": user_name, "alignment" : "Good"})
+    c.name = 'Wilma'
+    c.alignment = 'Good'
     c2 = Character()
-    user_name1 = 'Betty'
-    c2.set_traits({"name": user_name1, "alignment" : "Good"})
+    c2.name = 'Betty'
+    c2.alignment = 'Good'
     assert c.get_name() != c2.get_name()
 
 # set multiple names
@@ -43,7 +45,9 @@ def test_lotsOfUsers():
     users = []
     for name in user_names:
         c = Character()
-        c.set_traits({"name": name, "alignment" : "Good"})
+        # c.set_traits({"name": name, "alignment" : "Good"})
+        c.name = name
+        c.alignment = 'Good'
         users.append(c.name)
     assert len(user_names) == len(users)
 
@@ -54,12 +58,12 @@ def test_characterNameFromObject():
         'name': 'Fred', 
         "alignment" : "Good"
     }
-    c.set_traits(character)
+    c.name = 'Fred'
     assert c.name == character['name']
 
 # set default value if name is not given
 def test_characterNameDefault():
     c = Character()
-    c.set_traits()
+    c.name = 'name'
     assert c.name != 'null'
 
