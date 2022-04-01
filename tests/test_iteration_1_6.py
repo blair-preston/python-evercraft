@@ -22,6 +22,7 @@ def test_does_character_have_strength():
     c = Character()
     assert c.strength == '10' 
 
+# does a character have charisma
 def test_does_character_have_charisma():
     c = Character()
     assert c.charisma == '10' 
@@ -31,6 +32,7 @@ def test_do_abilites_have_modifiers():
     c = Character()
     assert c.ABILITIES_DICT["14"] == 2
 
+# does our abilities have modifiers avaliable from the dictionary
 def test_do_abilites_have_modifiers_test2():
     c = Character()
     assert c.ABILITIES_DICT["5"] == -3
