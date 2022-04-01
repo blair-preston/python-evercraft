@@ -58,7 +58,7 @@ def test_add_one_to_even_level():
     c = Character()
     opponent = Character()
     c.level = 2
-    assert c.attack_attempt(opponent, 13) == 4
+    assert c.attack_attempt(opponent, 9) == 4
 
  # a character with level one does not get +1 added to the roll   
 def test_miss():

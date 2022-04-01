@@ -39,7 +39,9 @@ class Character():
         self.hit_points = 5
         self.xp = 0
         self.level = 1
+        # 1 is truthy, 1 = alive, 0 = dead
         self.alive = 1
+        self.race = 'Human'
 
 
         #### the following two lines give each instance of Character a unique id
@@ -93,10 +95,7 @@ class Character():
     def attack_attempt(self, opponent, number_roll):
         # +1 to dice for every even level reached
         if self.level > 1:
-            if self.level % 2 == 0:
-                number_roll = number_roll + (self.level / 2)
-            elif self.level % 2 != 0:
-                number_roll = number_roll + floor(self.level / 2)
+            number_roll = number_roll + floor(self.level / 2)
 
         # updated number_roll + strength determines the outcome of attack attempt
         attack_roll = number_roll + self.ABILITIES_DICT[self.strength]
@@ -351,3 +350,10 @@ class Paladin(Character):
             if (check != self.level):
                 self.level = check
                 self.hit_points = self.hit_points + 8 + self.ABILITIES_DICT[self.constitution]
+
+
+
+class Orc():
+    pass
+
+
