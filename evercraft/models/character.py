@@ -353,7 +353,3 @@ class Paladin(Character):
 
 
 
-class Orc():
-    pass
-
-
