@@ -60,7 +60,7 @@ def test_character_id():
     assert c.id != None
 
 
-# does multiple characters get different id'set
+#### does multiple characters get different id'set
 def test_characters_get_different_ids():
     user_names = [
         'BamBam',
